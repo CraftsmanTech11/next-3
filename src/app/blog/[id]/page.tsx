@@ -3,6 +3,7 @@ import TagButton from "@/components/Blog/TagButton";
 import Image from "next/image";
 
 import { Metadata } from "next";
+import { fetcher } from "@/app/util/api-util";
 
 export const metadata: Metadata = {
   title: "Blog Details Page | Free Next.js Template for Startup and SaaS",
@@ -10,7 +11,14 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const BlogDetailsPage = () => {
+const BlogDetailsPage = async({params}) => {
+  // console.log('blog-params', params);
+  const { id } = params;
+  const baseUrl = process.env.NEXT_API_URL;
+  let blogData = await fetcher(`${baseUrl}/blog/${id}`);
+  console.log('blogData', blogData);
+  
+  
   return (
     <>
       <section className="pb-[120px] pt-[150px]">

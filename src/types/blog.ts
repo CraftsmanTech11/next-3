@@ -13,3 +13,7 @@ export type Blog = {
   tags: string[];
   publishDate: string;
 };
+export type apiResponseType = {
+  data: any;
+  message: string;
+};

@@ -1,8 +1,10 @@
 import SingleBlog from "@/components/Blog/SingleBlog";
-import blogData from "@/components/Blog/blogData";
+// import blogData from "@/components/Blog/blogData";
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import { fetcher } from "@/app/util/api-util";
 
 import { Metadata } from "next";
+import { apiResponseType } from "@/types/blog";
 
 export const metadata: Metadata = {
   title: "Blog Page | Free Next.js Template for Startup and SaaS",
@@ -10,7 +12,15 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const Blog = () => {
+const Blog = async() => {
+  const baseUrl = process.env.NEXT_API_URL;  
+
+  let blogData:apiResponseType = await fetcher(baseUrl + "/api/blog", {
+    next:{revalidate:60 * 1},
+    // cache: "no-store",
+  });
+
+  
   return (
     <>
       <Breadcrumb
@@ -21,7 +31,7 @@ const Blog = () => {
       <section className="pb-[120px] pt-[120px]">
         <div className="container">
           <div className="-mx-4 flex flex-wrap justify-center">
-            {blogData.map((blog) => (
+            {blogData?.data?.map((blog) => (
               <div
                 key={blog.id}
                 className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
